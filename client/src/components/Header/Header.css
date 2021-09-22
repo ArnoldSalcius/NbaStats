@@ -1,0 +1,30 @@
+header {
+  width: 100%;
+  background-color: var(--dark-bg-color);
+  padding: 10px 0;
+  font-family: "Permanent Marker", cursive;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 34px;
+  font-weight: unset;
+  color: var(--font-orange);
+}
+
+header li {
+  font-size: 24px;
+}
+
+header li:hover * {
+  color: var(--font-orange);
+}
+
+header * {
+  transition: 0.3s;
+}

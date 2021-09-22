@@ -1,0 +1,26 @@
+.Home {
+  background: var(--dark-bg-color);
+  margin: 2rem 0;
+  padding: 2rem;
+}
+
+.brand {
+  font-family: "Permanent Marker", cursive;
+  color: var(--font-orange);
+}
+.about {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1.6;
+}
+
+.about div {
+  width: 45%;
+  margin: 1.5rem 0;
+}
+
+.about-image img {
+  width: 100%;
+}

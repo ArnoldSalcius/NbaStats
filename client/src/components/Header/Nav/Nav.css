@@ -1,0 +1,22 @@
+.nav-list {
+  display: none;
+}
+
+nav {
+  width: auto;
+}
+
+@media screen and (min-width: 820px) {
+  .hamburger {
+    display: none;
+  }
+
+  nav {
+    width: 75%;
+  }
+
+  .nav-list {
+    display: flex;
+    justify-content: space-around;
+  }
+}

@@ -1,0 +1,33 @@
+.ham-nav.close {
+  right: -75%;
+  transition: 0.5s;
+}
+
+.ham-nav {
+  position: fixed;
+  z-index: 999;
+  width: 75%;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  background: var(--dark-bg-color);
+  text-align: center;
+  padding: 1em 0;
+}
+
+.open {
+  transition: 0.5s;
+  background: var(--dark-bg-color);
+  box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.5);
+}
+
+.ham-nav ul {
+  height: 100%;
+  justify-content: space-evenly;
+  margin: 2em 0;
+}
+
+.ham-nav li {
+  font-size: 36px;
+  margin: 3em 0;
+}

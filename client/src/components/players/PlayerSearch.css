@@ -1,0 +1,21 @@
+.PlayerSearch {
+  font-size: 20px;
+}
+
+.PlayerSearch > * {
+  margin: 1em 0;
+}
+
+.PlayerSearch h1 {
+  font-size: 26px;
+}
+
+.icon {
+  height: 48px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.icon svg {
+  fill: green;
+}

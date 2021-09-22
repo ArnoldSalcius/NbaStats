@@ -1,0 +1,21 @@
+i {
+  margin: auto auto;
+}
+
+.ham-icon * {
+  font-size: 30px;
+  vertical-align: middle;
+}
+
+.ham-icon {
+  height: auto;
+  width: auto;
+}
+
+.hamburger {
+  margin-top: -3px;
+}
+
+.ham-icon:hover * {
+  color: #ff5733;
+}

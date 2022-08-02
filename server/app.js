@@ -1,6 +1,7 @@
 require('dotenv').config();
+const { log } = require('console');
 const express = require('express');
-const path = require("path");
+const path = require('path');
 const playerRouter = require('./routes/players');
 
 const app = express();
@@ -8,16 +9,17 @@ app.use(express.json());
 
 
 
-// Step 1:
-app.use(express.static(path.resolve(__dirname, "../client/dist")));
-// Step 2:
-app.get("*", function (request, response) {
-    response.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
-});
+// // Step 1:
+// app.use(express.static(path.resolve(__dirname, "../client/dist")));
+// // Step 2:
+// app.get("*", function (request, response) {
+//     response.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+// });
 
 
 
 app.use(async (req, res, next) => {
+    log('hello')
     next();
 })
 app.use('/api/players', playerRouter);

@@ -4,7 +4,7 @@ import './SearchAutocomplete.css';
 
 const SearchAutocomplete = ({ searchItems, items, setItems, label }) => {
 
-
+    console.log(items);
     const [searchTerm, setSearchTerm] = useState('');
     const [debouncedTerm, setDebouncedTerm] = useState('');
     const [isOpen, setIsOpen] = useState(true);
@@ -33,7 +33,6 @@ const SearchAutocomplete = ({ searchItems, items, setItems, label }) => {
             const timeoutId = setTimeout(() => {
                 setDebouncedTerm(searchTerm);
 
-                //200ms seems good cuz we type fast. Slow typers will be BANNED!!! (due to too many requests)();
             }, 200);
             return () => {
                 clearTimeout(timeoutId);

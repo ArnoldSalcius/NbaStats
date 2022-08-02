@@ -32,3 +32,6 @@
   right: 5%;
   top: 0;
 }
+.seasons > *{
+  margin: 0.2rem
+}

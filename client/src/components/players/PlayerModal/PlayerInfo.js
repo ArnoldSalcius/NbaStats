@@ -75,7 +75,7 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
             )
         }
         return isAdded ? (
-            <Button cName='danger round' onClick={() => { AddPlayerToSaved(player); setIsAdded(false) }}>
+            <Button cName='danger round' onClick={() => { AddPlayerToSaved(player); setIsAdded(false); handleClose(); }}>
                 -
             </Button>
         ) : (
@@ -106,8 +106,11 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
                         <li>Rebounds per game: {curStats.reb}</li>
                     </ul>
                     <div>
-                        Change season:
-                        {renderSeasons()}
+                        <h3>Change season:</h3>
+                        <div className='seasons'>
+                            {renderSeasons()}
+                        </div>
+
                     </div>
                     <div className='player-save'>
                         <h3>

@@ -5,6 +5,41 @@
   justify-content: center;
 }
 
+/* CSS for PlayerCard */
 .PlayerCard {
+  box-sizing: border-box;
+  background: var(--dark-bg-color);
+  text-align: center;
+  width: 30%;
+  margin: 0.5em 0;
   cursor: pointer;
+
+}
+.PlayerCard {
+  color: #999999;
+  border: var(--font-orange) 1px solid;
+}
+
+
+.PlayerCard h2 {
+  margin: 0.75em 0.25em;
+  color: #999999;
+  transition: 0.25s;
+}
+.PlayerCard:hover h2 {
+  color: var(--font-orange);
+}
+
+.PlayerCard:hover * {
+  transition: 0.25s;
+  color: white;
+}
+@media only screen and (max-width: 1000px) {
+  .PlayerList {
+    display: block;
+  }
+
+  .PlayerCard {
+    width: 100%;
+  }
 }

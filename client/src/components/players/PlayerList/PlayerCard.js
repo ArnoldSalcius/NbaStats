@@ -2,8 +2,9 @@ import React from 'react';
 import { RiCheckboxCircleFill } from 'react-icons/ri';
 import './PlayerCard.css'
 
-const currentSeason = 2020;
+const currentSeason = 2021;
 const PlayerCard = ({ player, handleClick }) => {
+    console.log(player);
 
     const isActive = player.seasons.find((el) => el === currentSeason);
 

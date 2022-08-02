@@ -10,8 +10,9 @@
 * {
   padding: 0;
   margin: 0;
-  color: white;
 }
+
+
 
 input {
   color: black;
@@ -23,12 +24,13 @@ ul {
 
 .container {
   width: 85%;
-  margin: auto;
+  margin: 0 auto;
 }
 
 body {
   background-color: var(--main-bg-color);
   font-family: "Roboto", sans-serif;
+  color: white;
 }
 
 input,
@@ -38,14 +40,20 @@ select,
 a {
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
+  color: white;
 }
 
 button {
   color: black;
 }
 
+.container{
+  color: white;
+}
+
 input {
   font-size: inherit;
+  color: black;
 }
 
 h1 {
@@ -55,3 +63,16 @@ h1 {
 a:hover {
   text-decoration: underline;
 }
+
+
+.app {
+  display: flex;
+  height:100vh;
+  flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+  background: var(--dark-bg-color);
+}
+

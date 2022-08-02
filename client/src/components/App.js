@@ -1,16 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.css';
 import Header from './Header/Header';
+import Footer from './Footer';
 import PlayerSearch from './players/PlayerSearch';
 import PlayerSaved from './players/PlayerSaved';
 import Home from './Home/Home';
+import './App.css';
 
 const App = () => {
     return (
-        <div >
+        <div className='app'>
             <Router>
                 <Header />
+
                 <div className='container'>
                     <Switch>
                         <Route path='/' exact>
@@ -20,7 +22,7 @@ const App = () => {
                         <Route path='/players' component={PlayerSaved} />
                     </Switch>
                 </div>
-
+                <Footer />
             </Router>
         </div >
     )

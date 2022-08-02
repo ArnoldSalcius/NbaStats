@@ -19,3 +19,8 @@
 .icon svg {
   fill: green;
 }
+
+.search {
+  width: 75%;
+  margin: auto;
+}

@@ -1,22 +1,27 @@
+require('dotenv').config();
 const express = require('express');
+const path = require("path");
 const playerRouter = require('./routes/players');
 
 const app = express();
 app.use(express.json());
 
 
-// app.get('/players', (req, res) => {
-//     console.log(req.query);
-//     res.send(final);
-// });
+
+// Step 1:
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
+// Step 2:
+app.get("*", function (request, response) {
+    response.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
+});
 
 
-app.use('/api/players', playerRouter);
-app.use((req) => {
-    console.log(req.path);
-    console.log('I have been hit');
+
+app.use(async (req, res, next) => {
+    next();
 })
+app.use('/api/players', playerRouter);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('Server is listening at Port 3000');
 })

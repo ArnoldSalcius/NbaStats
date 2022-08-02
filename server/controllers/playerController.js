@@ -1,14 +1,51 @@
-const players = require('../final.json').data;
+const { getPlayerIds } = require('../generatePlayers');
+const redis = require('redis');
+
+//Keep in memory or parse every time?
+//how to handle updates?
+let players = [];
+let loading = false;
+
+const loadInitial = async (cb) => {
+    if (!loading) {
+        loading = true;
+        const client = redis.createClient({ url: process.env.REDIS_URL || null });
+        client.on('error', (err) => console.log('Redis Client Error', err));
+        await client.connect({ url: process.env.REDIS_URL || null });
+        const a = await client.get('players');
+        players = JSON.parse(a) || [];
+        console.log(players.length);
+        if (!players.length) {
+            getPlayerIds(cb);
+        }
+    } else {
+        console.log('whoa slow down there buddy');
+    }
+
+}
+loadInitial(refreshPlayers);
 
 
-const searchPlayers = (req, res, next) => {
+async function refreshPlayers() {
+    const a = await redis.get('players');
+    players = JSON.parse(a) || [];
+    loading = false;
+}
+
+
+
+
+const searchPlayers = async (req, res, next) => {
     const result = [];
     if (req.query.search) {
         const query = req.query.search.toLowerCase();
         //Search with query as start for first name or last name
         for (let i = 0; (i < players.length && result.length < 10); i++) {
             const player = players[i];
-            if (player.first_name.toLowerCase().startsWith(query) || player.last_name.toLowerCase().startsWith(query) || player.name.toLowerCase().includes(query)) {
+            const fullName = (player.first_name + ' ' + player.last_name).toLowerCase();;
+
+
+            if (fullName.toLowerCase().startsWith(query) || player.last_name.toLowerCase().startsWith(query)) {
                 result.push(player);
             }
         }
@@ -27,7 +64,7 @@ const searchPlayers = (req, res, next) => {
     res.json({ data: result });
 };
 
-const getPlayers = (req, res, next) => {
+const getPlayers = async (req, res, next) => {
 
     let result = [];
     if (req.query.players) {
@@ -45,5 +82,5 @@ const getPlayers = (req, res, next) => {
 
 module.exports = {
     searchPlayers,
-    getPlayers
+    getPlayers,
 }

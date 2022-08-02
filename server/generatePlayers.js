@@ -1,16 +1,15 @@
 const axios = require('axios');
-const fs = require('fs');
-const qs = require('qs')
+// const fs = require('fs');
+const redis = require('redis');
+//File used to generate a new JSON file with player names, ids, and seasons played
+// Outputs final.json
+
+
+const sStart = 1981;
+const sFinish = new Date().getFullYear();
 
 let mainArr = [];
-const sStart = 1983;
-const sFinish = 2020;
-
-const players = JSON.parse(fs.readFileSync('players.json')).data;
-const stats = JSON.parse(fs.readFileSync('stats.json')).data;
-const final = JSON.parse(fs.readFileSync('final.json')).data;
-
-const getPlayerIds = (page = 1) => {
+const getPlayerIds = (cb, season, page = 1) => {
     axios.get('https://www.balldontlie.io/api/v1/players', {
         params: {
             per_page: 100,
@@ -19,37 +18,54 @@ const getPlayerIds = (page = 1) => {
     }).then((res) => {
         const arr = res.data.data.map((player) => ({ ...player, name: `${player.first_name} ${player.last_name}` }));
         mainArr = [...mainArr, ...arr];
-        if (players?.data?.length === res.data.meta.total_count) {
-            console.log('no new players');
-            return;
-        }
+
         if (res.data.meta.next_page) {
-            getPlayerIds(res.data.meta.next_page);
+            getPlayerIds(cb, season, res.data.meta.next_page);
         } else {
-            const stringified = JSON.stringify({
-                data: mainArr
-            })
-            fs.writeFile('players.json', stringified, (err) => {
-                if (err) return console.log(err);
-                console.log('succesfully wrote to json file');
-            })
+
+            if (!season || season < 1981) {
+                season = sStart
+            }
+
+            setTimeout(() => {
+                getStats(mainArr, cb, season);
+
+            }, 15000);
+
         }
     }).catch(e => console.log(e));
 }
 
-// getPlayerIds();
-
 
 
 let playerStats = [];
-const getStats = (num = 0, season = sStart) => {
+const getStats = (players, cb, season = sStart, num = 0) => {
     const incBy = 400;
 
     const max = ((num + incBy) > players.length) ? players.length - 1 : num + incBy;
 
-    console.log(num, max, season);
     const playerParam = players.slice(num, max).map(player => player.id);
 
+    //Searching for 1981 for player 2417 returns an error
+    let errorOnes = [2417, 2433, 2518, 2521, 2527];
+    if (season === 1981) {
+        errorOnes.forEach((num) => {
+            const index = playerParam.indexOf(num);
+            if (index > -1) {
+                console.log('I removed');
+                playerParam.splice(index, 1);
+            }
+        })
+    } else if (season === 1982) {
+        errorOnes = [2646]
+        errorOnes.forEach((num) => {
+            const index = playerParam.indexOf(num);
+            if (index > -1) {
+                console.log('I removed');
+                playerParam.splice(index, 1);
+            }
+        })
+    }
     axios.get('https://www.balldontlie.io/api/v1/season_averages', {
         params: {
             season: season,
@@ -57,56 +73,60 @@ const getStats = (num = 0, season = sStart) => {
         },
 
     }).then(res => {
-        console.log(res.data);
+        console.log(res.data.data[0]);
+        console.log(season);
         playerStats = [...playerStats, ...res.data.data];
-        if (max + 1 === players.length && season === sFinish) {
-            fs.writeFileSync('stats.json', JSON.stringify({
-                data: playerStats
-            }))
-            console.log('Should be done');
+        if (max + 1 === players.length && season >= new Date().getFullYear()) {
+            getSeasons(playerStats, players, cb);
             return;
         } else if (max + 1 === players.length) {
             setTimeout(() => {
-                getStats(0, season + 1)
-            }, 7000)
+                getStats(players, cb, season + 1, 0)
+            }, 10000);
         } else {
-            getStats(num + incBy, season);
+            getStats(players, cb, season, num + incBy);
         }
     }).catch(e => {
         console.log(e);
     })
 };
 
-// getStats();
-
 const finalArr = [];
-const getSeasons = () => {
-    stats.map((stat) => {
-        const finalPlayer = finalArr.find((player) => player.id === stat.player_id);
-        if (finalPlayer) {
 
-            finalPlayer.seasons = [...finalPlayer.seasons, stat.season];
-            return;
-        }
-        const player = players.find((player) => player.id === stat.player_id);
-        player.seasons = [stat.season];
-        finalArr.push(player)
+const getSeasons = (stats, players, cb) => {
+    //sita perrasyt kad butu atvirksciai player mapintu pagal status o ne status pagal playeri
+
+    players.forEach((player, i) => {
+        const id = player.id;
+        !i && console.log(player);
+        const filtred = stats.filter((stat) => {
+            return stat.player_id === id;
+        });
+        const maped = filtred.map((el) => el.season);
+        finalArr.push({
+            ...player,
+            seasons: maped
+        })
     });
-    fs.writeFileSync('final.json', JSON.stringify({ data: finalArr }))
-    console.log(finalArr.length);
+    console.log('generate players done');
+    moveToRedis(finalArr, cb);
 };
 
 
-getSeasons();
+const moveToRedis = (arr, cb) => {
+    const client = redis.createClient();
+    const str = JSON.stringify(arr);
+    client.on('error', (err) => console.log('Redis Client Error', err));
+    client.connect().then(() => {
+        client.set('players', str).then(() => {
+            cb();
+        })
+    }).catch(e => {
+        console.log(e);
+    })
+}
 
-// const combineArrays = () => {
-//     const lastarr = last.data;
-//     const playerArr = players.data;
-//     const finalarr = [];
 
-//     for(let i = 0; i < lastarr.length; i++){
-//         finalarr.push({...last})
-//     }
-
-//     fs.writeFileSync('final.json', JSON.stringify({data: }))
-// }
+module.exports = {
+    getPlayerIds
+}

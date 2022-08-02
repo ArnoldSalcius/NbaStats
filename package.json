@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "npm start --prefix server",
-		"install-client": "cd client && npm install && npm run build && cd ..",
-		"install-server": "cd server && npm install && cd .. ",
+		"install-client": "cd client && npm install --dev && npm run build && cd ..",
+		"install-server": "cd server && npm install --dev && cd .. ",
 		"heroku-postbuild": "npm run install-client && npm run install-server"
 	},
 	"repository": {

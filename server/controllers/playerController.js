@@ -5,9 +5,13 @@ const redis = require('redis');
 //how to handle updates?
 let players = [];
 let loading = false;
+let redisError = false
 
 const client = redis.createClient({ url: process.env.REDIS_URL || null });
-client.on('error', (err) => console.log('Redis Client Error', err));
+client.on('error', (err) => {
+    redisError = true;
+    console.log('Redis Client Error', err)
+});
 
 const loadInitial = async (cb) => {
     if (!loading) {
@@ -40,8 +44,11 @@ async function refreshPlayers() {
 
 const test = async (req, res) => {
 
-    console.log(process.env.REDIS_URI);
-    res.json({ name: 5 })
+    console.log(process.env.REDIS_URL);
+    await client.connect({ url: process.env.REDIS_URL || null });
+    const key = await client.get('key');
+    client.disconnect();
+    res.json({ uri: process.env.REDIS_URI, key, redisError })
 }
 
 

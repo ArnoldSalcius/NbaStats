@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-app.get('/test', test);
+// app.get('/test', test);
 
 app.use(async (req, res, next) => {
     log('hello')

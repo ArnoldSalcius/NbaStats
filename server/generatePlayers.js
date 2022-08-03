@@ -117,7 +117,7 @@ const moveToRedis = (arr, cb) => {
     const client = redis.createClient();
     const str = JSON.stringify(arr);
     client.on('error', (err) => console.log('Redis Client Error', err));
-    client.connect().then(() => {
+    client.connect({ url: process.env.REDIS_URL || null }).then(() => {
         client.set('players', str).then(() => {
             cb();
         })

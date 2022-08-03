@@ -21,9 +21,10 @@ const loadInitial = async (cb) => {
         await client.connect();
         const a = await client.get('players');
         players = JSON.parse(a) || [];
-        iRan = true;
         await client.disconnect();
         if (!players.length) {
+            iRan = true;
+
             getPlayerIds(cb);
         }
     } else {

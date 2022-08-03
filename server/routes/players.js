@@ -9,5 +9,3 @@ router.get('/', searchPlayers);
 router.get('/id', getPlayers);
 
 module.exports = router;
-
-// router.get('/saved', getPlayers);

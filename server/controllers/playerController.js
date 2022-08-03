@@ -6,6 +6,7 @@ const redis = require('redis');
 let players = [];
 let loading = false;
 let redisError = false
+let iRan = false;
 
 const client = redis.createClient({ url: process.env.REDIS_URL || null });
 client.on('error', (err) => {
@@ -17,10 +18,10 @@ const loadInitial = async (cb) => {
     if (!loading) {
         loading = true;
 
-        await client.connect({ url: process.env.REDIS_URL || null });
+        await client.connect();
         const a = await client.get('players');
         players = JSON.parse(a) || [];
-        console.log(players.length);
+        iRan = true;
         await client.disconnect();
         if (!players.length) {
             getPlayerIds(cb);
@@ -42,12 +43,13 @@ const test = async (req, res) => {
         loading,
         redisError,
         length: players.length,
-        key
+        key,
+        iRan
     });
 }
 
 async function refreshPlayers() {
-    await client.connect({ url: process.env.REDIS_URL || null });
+    await client.connect();
     const a = await client.get('players');
     players = JSON.parse(a) || [];
     loading = false;

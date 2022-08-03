@@ -7,6 +7,11 @@ const redis = require('redis');
 
 const sStart = 2020;
 const sFinish = new Date().getFullYear();
+const client = redis.createClient({ url: process.env.REDIS_URL || null });
+
+const err1 = null;
+const err2 = null;
+const err3 = null;
 
 let mainArr = [];
 const getPlayerIds = (cb, season, page = 1) => {
@@ -33,7 +38,7 @@ const getPlayerIds = (cb, season, page = 1) => {
             }, 15000);
 
         }
-    }).catch(e => console.log(e));
+    }).catch(e => err1 = e);
 }
 
 
@@ -73,8 +78,6 @@ const getStats = (players, cb, season = sStart, num = 0) => {
         },
 
     }).then(res => {
-        console.log(res.data.data[0]);
-        console.log(season);
         playerStats = [...playerStats, ...res.data.data];
         if (max + 1 === players.length && season >= new Date().getFullYear()) {
             getSeasons(playerStats, players, cb);
@@ -87,7 +90,9 @@ const getStats = (players, cb, season = sStart, num = 0) => {
             getStats(players, cb, season, num + incBy);
         }
     }).catch(e => {
+        err2 = e;
         console.log(e);
+        //this only async part
     })
 };
 
@@ -114,7 +119,7 @@ const getSeasons = (stats, players, cb) => {
 
 
 const moveToRedis = (arr, cb) => {
-    const client = redis.createClient({ url: process.env.REDIS_URL || null });
+
     const str = JSON.stringify(arr);
     client.on('error', (err) => console.log('Redis Client Error', err));
     client.connect().then(() => {
@@ -122,11 +127,15 @@ const moveToRedis = (arr, cb) => {
             cb();
         })
     }).catch(e => {
+        err3 = e;
         console.log(e);
     })
 }
 
 
 module.exports = {
-    getPlayerIds
+    getPlayerIds,
+    err1,
+    err2,
+    err3,
 }

@@ -1,4 +1,4 @@
-const { getPlayerIds } = require('../generatePlayers');
+const { getPlayerIds, err1, err2, err3 } = require('../generatePlayers');
 const redis = require('redis');
 
 //Keep in memory or parse every time?
@@ -45,7 +45,10 @@ const test = async (req, res) => {
         redisError,
         length: players.length,
         key,
-        iRan
+        iRan,
+        err1,
+        err2,
+        err3
     });
 }
 

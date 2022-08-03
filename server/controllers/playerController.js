@@ -33,6 +33,19 @@ const loadInitial = async (cb) => {
 loadInitial(refreshPlayers);
 
 
+const test = async (req, res) => {
+    await client.connect();
+    const key = await client.get('key');
+    await client.disconnect();
+
+    res.json({
+        loading,
+        redisError,
+        length: players.length,
+        key
+    });
+}
+
 async function refreshPlayers() {
     await client.connect({ url: process.env.REDIS_URL || null });
     const a = await client.get('players');
@@ -90,4 +103,5 @@ const getPlayers = async (req, res, next) => {
 module.exports = {
     searchPlayers,
     getPlayers,
+    test
 }

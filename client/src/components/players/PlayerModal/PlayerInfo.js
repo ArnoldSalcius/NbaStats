@@ -87,7 +87,7 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
 
 
     const renderStats = () => {
-
+        console.log(stats);
 
         const isStats = stats.find(({ season }) => season === selectedSeason);
         if (isStats) {
@@ -100,10 +100,10 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
                     <hr />
 
                     <ul className='stats-list'>
-                        <li>Games Played: {curStats.games_played}</li>
-                        <li>Pts per game: {curStats.pts}</li>
-                        <li>Assists per game: {curStats.ast}</li>
-                        <li>Rebounds per game: {curStats.reb}</li>
+                        <li className='stat-item'><label>Games Played:  </label>{curStats?.games_played || 'not found'}</li>
+                        <li className='stat-item'><label>Pts per game: </label>{curStats?.pts || 'not found'}</li>
+                        <li className='stat-item'><label>Assists per game:  </label> {curStats?.ast || 'not found'}</li>
+                        <li className='stat-item'><label>Rebounds per game:  </label> {curStats?.reb || 'not found'}</li>
                     </ul>
                     <div>
                         <h3>Change season:</h3>
@@ -119,7 +119,7 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
                         {renderAddButton()}
                     </div>
 
-                </div>
+                </div >
             )
         }
 

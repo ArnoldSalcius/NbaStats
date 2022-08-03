@@ -6,15 +6,18 @@ const redis = require('redis');
 let players = [];
 let loading = false;
 
+const client = redis.createClient({ url: process.env.REDIS_URL || null });
+client.on('error', (err) => console.log('Redis Client Error', err));
+
 const loadInitial = async (cb) => {
     if (!loading) {
         loading = true;
-        const client = redis.createClient({ url: process.env.REDIS_URL || null });
-        client.on('error', (err) => console.log('Redis Client Error', err));
+
         await client.connect({ url: process.env.REDIS_URL || null });
         const a = await client.get('players');
         players = JSON.parse(a) || [];
         console.log(players.length);
+        await client.disconnect();
         if (!players.length) {
             getPlayerIds(cb);
         }
@@ -27,12 +30,19 @@ loadInitial(refreshPlayers);
 
 
 async function refreshPlayers() {
-    const a = await redis.get('players');
+    await client.connect({ url: process.env.REDIS_URL || null });
+    const a = await client.get('players');
     players = JSON.parse(a) || [];
     loading = false;
+    await client.disconnect();
 }
 
 
+const test = async (req, res) => {
+
+    console.log(process.env.REDIS_URI);
+    res.json({ name: 5 })
+}
 
 
 const searchPlayers = async (req, res, next) => {
@@ -83,4 +93,5 @@ const getPlayers = async (req, res, next) => {
 module.exports = {
     searchPlayers,
     getPlayers,
+    test
 }

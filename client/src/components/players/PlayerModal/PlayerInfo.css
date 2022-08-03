@@ -35,3 +35,7 @@
 .seasons > *{
   margin: 0.2rem
 }
+
+.stat-item > label {
+  font-weight: bold;
+}

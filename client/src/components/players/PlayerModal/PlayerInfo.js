@@ -37,7 +37,6 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
             const foundPlayer = players.findIndex(savedPlayer => savedPlayer.id === player.id);
             if (foundPlayer !== -1) {
                 newPlayers = players.filter(savedPlayer => savedPlayer.id !== player.id);
-                console.log(newPlayers);
             } else {
                 newPlayers = [...players, player];
             }
@@ -87,7 +86,6 @@ const PlayerInfo = ({ modalRef, player, handleClose, setPlayers, search }) => {
 
 
     const renderStats = () => {
-        console.log(stats);
 
         const isStats = stats.find(({ season }) => season === selectedSeason);
         if (isStats) {

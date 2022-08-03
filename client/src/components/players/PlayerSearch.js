@@ -17,7 +17,7 @@ const PlayerSearch = () => {
             <div className='search'>
                 <SearchAutocomplete label='Enter Player name: ' searchItems={searchPlayer} items={players} setItems={(players) => setPlayers([...players])} />
 
-                <div className='icon'><RiCheckboxCircleFill size='24px' /><span>&nbsp; - denotes active player as of 2020-2022 season</span></div>
+                <div className='icon'><RiCheckboxCircleFill size='24px' /><span>&nbsp; - denotes active player as of 2021-2022 season</span></div>
             </div>
             {/* Do not set players, rather handle saving within component (localstorage) */}
             <PlayerList players={players} setPlayers={() => []} search />

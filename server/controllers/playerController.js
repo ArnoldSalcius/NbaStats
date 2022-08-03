@@ -1,12 +1,11 @@
-const { getPlayerIds, err1, err2, err3 } = require('../generatePlayers');
+const { getPlayerIds } = require('../generatePlayers');
 const redis = require('redis');
 
 //Keep in memory or parse every time?
 //how to handle updates?
 let players = [];
 let loading = false;
-let redisError = false
-let iRan = false;
+
 
 const client = redis.createClient({ url: process.env.REDIS_URL || null });
 client.on('error', (err) => {
@@ -35,22 +34,6 @@ const loadInitial = async (cb) => {
 loadInitial(refreshPlayers);
 
 
-const test = async (req, res) => {
-    await client.connect();
-    const key = await client.get('key');
-    await client.disconnect();
-
-    res.json({
-        loading,
-        redisError,
-        length: players.length,
-        key,
-        iRan,
-        err1,
-        err2,
-        err3
-    });
-}
 
 async function refreshPlayers() {
     await client.connect();
@@ -109,5 +92,4 @@ const getPlayers = async (req, res, next) => {
 module.exports = {
     searchPlayers,
     getPlayers,
-    test
 }

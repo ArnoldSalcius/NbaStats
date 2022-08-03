@@ -4,7 +4,6 @@ import './PlayerCard.css'
 
 const currentSeason = 2021;
 const PlayerCard = ({ player, handleClick }) => {
-    console.log(player);
 
     const isActive = player.seasons.find((el) => el === currentSeason);
 
@@ -23,12 +22,5 @@ const PlayerCard = ({ player, handleClick }) => {
 
 
 
-
-// function getPosition(position) {
-//     switch (position) {
-//         case 'F':
-//         case ''
-//     }
-// }
 
 export default PlayerCard

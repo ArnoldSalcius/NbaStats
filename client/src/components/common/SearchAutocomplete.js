@@ -4,7 +4,6 @@ import './SearchAutocomplete.css';
 
 const SearchAutocomplete = ({ searchItems, items, setItems, label }) => {
 
-    console.log(items);
     const [searchTerm, setSearchTerm] = useState('');
     const [debouncedTerm, setDebouncedTerm] = useState('');
     const [isOpen, setIsOpen] = useState(true);

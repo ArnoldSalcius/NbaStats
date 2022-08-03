@@ -9,9 +9,6 @@ const sStart = 2020;
 const sFinish = new Date().getFullYear();
 const client = redis.createClient({ url: process.env.REDIS_URL || null });
 
-const err1 = null;
-const err2 = null;
-const err3 = null;
 
 let mainArr = [];
 const getPlayerIds = (cb, season, page = 1) => {
@@ -57,7 +54,6 @@ const getStats = (players, cb, season = sStart, num = 0) => {
         errorOnes.forEach((num) => {
             const index = playerParam.indexOf(num);
             if (index > -1) {
-                console.log('I removed');
                 playerParam.splice(index, 1);
             }
         })
@@ -66,7 +62,6 @@ const getStats = (players, cb, season = sStart, num = 0) => {
         errorOnes.forEach((num) => {
             const index = playerParam.indexOf(num);
             if (index > -1) {
-                console.log('I removed');
                 playerParam.splice(index, 1);
             }
         })
@@ -113,7 +108,6 @@ const getSeasons = (stats, players, cb) => {
             seasons: maped
         })
     });
-    console.log('generate players done');
     moveToRedis(finalArr, cb);
 };
 
@@ -135,7 +129,5 @@ const moveToRedis = (arr, cb) => {
 
 module.exports = {
     getPlayerIds,
-    err1,
-    err2,
-    err3,
+
 }

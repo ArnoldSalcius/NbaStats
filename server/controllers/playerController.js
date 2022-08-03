@@ -42,16 +42,6 @@ async function refreshPlayers() {
 }
 
 
-// const test = async (req, res) => {
-
-//     console.log(process.env.REDIS_URL);
-//     await client.connect({ url: process.env.REDIS_URL || null });
-//     const key = await client.get('key');
-//     client.disconnect();
-//     res.json({ uri: process.env.REDIS_URI, key, redisError })
-// }
-
-
 const searchPlayers = async (req, res, next) => {
     const result = [];
     if (req.query.search) {
@@ -100,5 +90,4 @@ const getPlayers = async (req, res, next) => {
 module.exports = {
     searchPlayers,
     getPlayers,
-    // test
 }

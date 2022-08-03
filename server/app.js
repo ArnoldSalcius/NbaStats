@@ -9,13 +9,6 @@ app.use(express.json());
 
 
 
-// // Step 1:
-// app.use(express.static(path.resolve(__dirname, "../client/dist")));
-// // Step 2:
-// app.get("*", function (request, response) {
-//     response.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
-// });
-
 
 
 app.use(async (req, res, next) => {
@@ -23,6 +16,15 @@ app.use(async (req, res, next) => {
     next();
 })
 app.use('/api/players', playerRouter);
+
+
+// Step 1:
+app.use(express.static(path.resolve(__dirname, "../client/dist")));
+// Step 2:
+app.get("*", function (request, response) {
+    response.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+});
+
 
 app.listen(process.env.PORT || 3000, () => {
     console.log('Server is listening at Port 3000');

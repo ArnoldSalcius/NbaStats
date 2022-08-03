@@ -114,10 +114,10 @@ const getSeasons = (stats, players, cb) => {
 
 
 const moveToRedis = (arr, cb) => {
-    const client = redis.createClient();
+    const client = redis.createClient({ url: process.env.REDIS_URL || null });
     const str = JSON.stringify(arr);
     client.on('error', (err) => console.log('Redis Client Error', err));
-    client.connect({ url: process.env.REDIS_URL || null }).then(() => {
+    client.connect().then(() => {
         client.set('players', str).then(() => {
             cb();
         })

@@ -21,12 +21,12 @@ app.use('/api/players', playerRouter);
 
 
 
-// // Step 1:
-// app.use(express.static(path.resolve(__dirname, "../client/dist")));
-// // Step 2:
-// app.get("*", function (request, response) {
-//     response.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
-// });
+// Step 1:
+app.use(express.static(path.resolve(__dirname, "../client/dist")));
+// Step 2:
+app.get("*", function (request, response) {
+    response.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+});
 
 
 app.listen(process.env.PORT || 3000, () => {

@@ -100,5 +100,5 @@ const getPlayers = async (req, res, next) => {
 module.exports = {
     searchPlayers,
     getPlayers,
-    test
+    // test
 }

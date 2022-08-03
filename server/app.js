@@ -2,7 +2,6 @@ require('dotenv').config();
 const { log } = require('console');
 const express = require('express');
 const path = require('path');
-const { test } = require('./controllers/playerController');
 const playerRouter = require('./routes/players');
 
 const app = express();
@@ -10,7 +9,6 @@ app.use(express.json());
 
 
 
-// app.get('/test', test);
 
 app.use(async (req, res, next) => {
     log('hello')

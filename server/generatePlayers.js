@@ -5,7 +5,7 @@ const redis = require('redis');
 // Outputs final.json
 
 
-const sStart = 1981;
+const sStart = 2020;
 const sFinish = new Date().getFullYear();
 const client = redis.createClient({ url: process.env.REDIS_URL || null });
 

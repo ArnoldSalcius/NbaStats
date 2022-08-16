@@ -1,9 +1,7 @@
 const axios = require('axios');
 // const fs = require('fs');
 const redis = require('redis');
-//File used to generate a new JSON file with player names, ids, and seasons played
-// Outputs final.json
-
+//gets all the player ids and runs with the
 
 const sStart = 1981;
 const sFinish = new Date().getFullYear();
